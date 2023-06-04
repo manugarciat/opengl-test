@@ -6,7 +6,8 @@
 
 
 //globals:
-bool gameIsRunning = true;
+bool appIsRunning = true;
+
 // Create a window data type
 // This pointer will point to the
 // window that is allocated from SDL_CreateWindow
@@ -54,12 +55,11 @@ void InitializeProgram() {
                               ScreenHeight,
                               SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
 
-    // OpenGL setup the graphics context
-
+    // OpenGL set up the graphics context
     context = SDL_GL_CreateContext(window);
 
     // Setup our function pointers (glad)
-    //(SDL_GL_GetProcAddress); //esta linea era original cambie por esto:
+    //(SDL_GL_GetProcAddress); //esta linea era original cambié por esto:
     int version = gladLoadGL((GLADloadfunc) SDL_GL_GetProcAddress);
 
     int major = GLAD_VERSION_MAJOR(version);
@@ -78,7 +78,7 @@ void Input() {
     while (SDL_PollEvent(&event)) {
         // Handle each specific event
         if (event.type == SDL_QUIT) {
-            gameIsRunning = false;
+            appIsRunning = false;
         }
         if (event.type == SDL_MOUSEMOTION) {
             std::cout << "mouse has been moved\n";
@@ -91,7 +91,7 @@ void Input() {
                 std::cout << "0 was not pressed\n";
             }
         }
-        // Retrieve the state of all of the keys
+        // Retrieve the state of all the keys
         // Then we can query the scan code of one or more
         // keys at a time
         const Uint8* state = SDL_GetKeyboardState(nullptr);
@@ -111,11 +111,11 @@ void Draw() {
 }
 
 void MainLoop() {
-    while (gameIsRunning) {
+
+    while (appIsRunning) {
+
         Input();
-
         PreDraw();
-
         Draw();
 
         // update screen
@@ -139,9 +139,15 @@ void CleanUp() {
 }
 
 
+void VertexSpecification() {
+
+}
+
 int main(int argc, char* argv[]) {
 
     InitializeProgram();
+
+    VertexSpecification();
 
     // Infinite loop for our application
     MainLoop();
